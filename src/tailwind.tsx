@@ -3,26 +3,20 @@ import elementsArray from './elementTags';
 
 
 
-
-let calcStart = 0;
-
-
-import { TailwindCssModuleContext } from './Provider';
+import { CSSModuleClasses, TailwindCssModuleContext } from './Provider';
 
 
 
 
 // process styled map then return class name
-const processStyledMap = (classList: string, sxProps: Array<string>): string => {
-  const tw = useContext(TailwindCssModuleContext) as any;
-
+const processStyledMap = (classList: string, sxProps: Array<string>, tailwind: CSSModuleClasses): string => {
   let sxStyledList = '';
 
   sxProps?.forEach((item, index) => {
-    if(index !== sxProps.length - 1) {
-      sxStyledList += `${tw[item]} `;
+    if (index !== sxProps.length - 1) {
+      sxStyledList += `${tailwind[item]} `;
     } else {
-      sxStyledList += tw[item];
+      sxStyledList += tailwind[item];
     }
   });
 
@@ -46,46 +40,57 @@ const mergeOldClass = (oldClass: string, newClass: string | null): string | null
 
 
 
-const createStyled = (tag: string, styledmap?: Array<string>) => {
-  // console.log('styledmap', styledmap);
-
-
-  const tw = useContext(TailwindCssModuleContext) as any;
-  const FinalTag = tag;
+const processAll = ({ props, styledmap, tailwind } : { props: any, styledmap?: Array<string>, tailwind: CSSModuleClasses}) => {
   let classList = '';
 
-
-
   styledmap?.forEach((item, index) => {
-    if(index !== styledmap.length - 1) {
-      classList += `${tw[item]} `;
+    if (index !== styledmap.length - 1) {
+      classList += `${tailwind[item]} `;
     } else {
-      classList += tw[item];
+      classList += tailwind[item];
     }
     // console.log('item', tw[item]);
   });
 
+  const clacSxAndClassListResult = processStyledMap(classList, props?.sx, tailwind);
+
+  // remove sx props
+  const newProps = {
+    ...props,
+    // sx: null,
+    className: mergeOldClass(props.className, clacSxAndClassListResult ? clacSxAndClassListResult : null, tailwind),
+  }
+
+  return newProps;
+}
+
+
+
+const createStyled = (tag: string, styledmap?: Array<string>) => {
+  // console.log('styledmap', styledmap);
+  const FinalTag = tag;
+
   // console.log('result classList', classList);
 
-
-
   return React.forwardRef<any, any>((props, ref) => {
-    const clacSxAndClassListResult = processStyledMap(classList, props?.sx);
+    const { tailwind } = useContext(TailwindCssModuleContext);
 
-    // remove sx props
-    const newProps = {
-      ...props,
-      // sx: null,
-      className: mergeOldClass(props.className, clacSxAndClassListResult ? clacSxAndClassListResult : null),
+    if (tailwind !== null) {
+      // console.log(tailwind);
+
+      const processAllPropsResult = processAll({props, styledmap, tailwind});
+
+      return (
+        <FinalTag
+          {...props}
+          {...processAllPropsResult}
+          ref={ref}
+          sx={null}
+        />
+      )
+    } else {
+      throw 'TailwindCssModuleProvider is not found';
     }
-
-    return (
-      <FinalTag
-        {...newProps}
-        ref={ref}
-        sx={null}
-      />
-    )
   });
 }
 

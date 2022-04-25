@@ -1,7 +1,7 @@
 {
   "name": "@sfirew/tailwind-styled-map",
-  "description": "Minecraft Server MOTD Parser, can convert to html, json, text.",
-  "version": "1.0.8",
+  "description": "Tailwind CSS Module styled map",
+  "version": "0.0.1-beta.4",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
@@ -20,7 +20,12 @@
   "keywords": [
     "parser",
     "html",
-    "typescript"
+    "typescript",
+    "tailwind",
+    "css",
+    "css modules",
+    "styled",
+    "map"
   ],
   "publishConfig": {
     "@snowfirewolf:registry": "https://npm.pkg.github.com"

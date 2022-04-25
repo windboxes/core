@@ -26,33 +26,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 let calcStart = 0;
 const Provider_1 = require("./Provider");
-// process styled map then return class name
-const processStyledMap = (classList, sxProps) => {
-    const tw = (0, react_1.useContext)(Provider_1.TailwindCssModuleContext);
-    let sxStyledList = '';
-    sxProps?.forEach((item, index) => {
-        if (index !== sxProps.length - 1) {
-            sxStyledList += `${tw[item]} `;
-        }
-        else {
-            sxStyledList += tw[item];
-        }
-    });
-    // console.log('sxProps', sxProps);
-    // console.log('sxStyledList', sxStyledList);
-    return classList ? `${classList} ${sxStyledList}` : sxStyledList;
-};
-// merge class name
-const mergeOldClass = (oldClass, newClass) => {
-    const oldClassString = oldClass ? oldClass : null;
-    const newClassString = newClass ? newClass : null;
-    // console.log('oldClassString', oldClassString);
-    // console.log('newClassString', newClassString);
-    return oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
-};
 const createStyled = (tag, styledmap) => {
-    // console.log('styledmap', styledmap);
     const tw = (0, react_1.useContext)(Provider_1.TailwindCssModuleContext);
+    // console.log('styledmap', styledmap);
+    // process styled map then return class name
+    const processStyledMap = (classList, sxProps) => {
+        let sxStyledList = '';
+        sxProps?.forEach((item, index) => {
+            if (index !== sxProps.length - 1) {
+                sxStyledList += `${tw[item]} `;
+            }
+            else {
+                sxStyledList += tw[item];
+            }
+        });
+        // console.log('sxProps', sxProps);
+        // console.log('sxStyledList', sxStyledList);
+        return classList ? `${classList} ${sxStyledList}` : sxStyledList;
+    };
+    // merge class name
+    const mergeOldClass = (oldClass, newClass) => {
+        const oldClassString = oldClass ? oldClass : null;
+        const newClassString = newClass ? newClass : null;
+        // console.log('oldClassString', oldClassString);
+        // console.log('newClassString', newClassString);
+        return oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
+    };
     const FinalTag = tag;
     let classList = '';
     styledmap?.forEach((item, index) => {
