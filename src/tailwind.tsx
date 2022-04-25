@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-// import elementsArray from './elementTags';
 
+import elementsArray from './elementTags';
+type IntrinsicElementsKeys = keyof JSX.IntrinsicElements
 
 
 import { CSSModuleClasses, TailwindStyledMapContext } from './Provider';
@@ -69,6 +70,7 @@ const processAll = ({ props, styledmap, tailwind }: { props: any, styledmap?: Ar
 
 
 
+
 const createStyled = (tag: string, styledmap?: Array<string>) => {
   // console.log('styledmap', styledmap);
   const FinalTag = tag;
@@ -111,4 +113,25 @@ const createStyled = (tag: string, styledmap?: Array<string>) => {
 
 
 
-export default createStyled;
+export type tagFunctionsMap = {
+  [key in IntrinsicElementsKeys]: (styledmap?: Array<string>) => any
+}
+
+
+
+const tagFunctions: tagFunctionsMap = elementsArray.reduce((acc, item) => ({
+  ...acc,
+  [item]: (styledMap: Array<string>) => {
+    return createStyled(item, styledMap)
+  },
+}), {} as any);
+// console.log('tagFunctions', tagFunctions);
+
+
+
+// merge
+const styleTailwind = Object.assign(createStyled, tagFunctions);
+
+
+ 
+export default styleTailwind;

@@ -22,9 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
-// import elementsArray from './elementTags';
+const elementTags_1 = __importDefault(require("./elementTags"));
 const Provider_1 = require("./Provider");
 // convert tailwind class name to css module class name
 const convertToClassName = (styledmap, tailwind) => {
@@ -98,4 +101,13 @@ const createStyled = (tag, styledmap) => {
     }
     return TailwindComponent;
 };
-exports.default = createStyled;
+const tagFunctions = elementTags_1.default.reduce((acc, item) => ({
+    ...acc,
+    [item]: (styledMap) => {
+        return createStyled(item, styledMap);
+    },
+}), {});
+// console.log('tagFunctions', tagFunctions);
+// merge
+const styleTailwind = Object.assign(createStyled, tagFunctions);
+exports.default = styleTailwind;
