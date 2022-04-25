@@ -24,31 +24,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
+// import elementsArray from './elementTags';
 const Provider_1 = require("./Provider");
-// process styled map then return class name
-const processStyledMap = (classList, sxProps, tailwind) => {
-    let sxStyledList = '';
-    sxProps?.forEach((item, index) => {
-        if (index !== sxProps.length - 1) {
-            sxStyledList += `${tailwind[item]} `;
-        }
-        else {
-            sxStyledList += tailwind[item];
-        }
-    });
-    // console.log('sxProps', sxProps);
-    // console.log('sxStyledList', sxStyledList);
-    return classList ? `${classList} ${sxStyledList}` : sxStyledList;
-};
-// merge class name
-const mergeOldClass = (oldClass, newClass) => {
-    const oldClassString = oldClass ? oldClass : null;
-    const newClassString = newClass ? newClass : null;
-    // console.log('oldClassString', oldClassString);
-    // console.log('newClassString', newClassString);
-    return oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
-};
-const processAll = ({ props, styledmap, tailwind }) => {
+// convert tailwind class name to css module class name
+const convertToClassName = (styledmap, tailwind) => {
     let classList = '';
     styledmap?.forEach((item, index) => {
         if (index !== styledmap.length - 1) {
@@ -59,8 +38,29 @@ const processAll = ({ props, styledmap, tailwind }) => {
         }
         // console.log('item', tw[item]);
     });
+    return classList;
+};
+// process styled map then return class name
+const processStyledMap = (classList, sxProps, tailwind) => {
+    const sxStyledList = convertToClassName(sxProps, tailwind);
+    // console.log('sxProps', sxProps);
+    // console.log('sxStyledList', sxStyledList);
+    return classList && sxStyledList
+        ? `${classList} ${sxStyledList}`
+        : classList || sxStyledList || '';
+};
+// merge class name
+const mergeOldClass = (oldClass, newClass) => {
+    const oldClassString = oldClass ? oldClass : null;
+    const newClassString = newClass ? newClass : null;
+    // console.log('oldClassString', oldClassString);
+    // console.log('newClassString', newClassString);
+    return oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
+};
+const processAll = ({ props, styledmap, tailwind }) => {
+    const classList = styledmap ? convertToClassName(styledmap, tailwind) : '';
+    // merge with sx
     const clacSxAndClassListResult = processStyledMap(classList, props?.sx, tailwind);
-    // remove sx props
     const newProps = {
         ...props,
         // sx: null,
@@ -71,17 +71,31 @@ const processAll = ({ props, styledmap, tailwind }) => {
 const createStyled = (tag, styledmap) => {
     // console.log('styledmap', styledmap);
     const FinalTag = tag;
+    // const FinalElement = Element
     // console.log('result classList', classList);
-    return react_1.default.forwardRef((props, ref) => {
-        const { tailwind } = (0, react_1.useContext)(Provider_1.TailwindCssModuleContext);
+    const TailwindComponent = react_1.default.forwardRef((props, ref) => {
+        const { tailwind } = (0, react_1.useContext)(Provider_1.TailwindStyledMapContext);
         if (tailwind) {
             // console.log(tailwind);
             const processAllPropsResult = processAll({ props, styledmap, tailwind });
-            return (react_1.default.createElement(FinalTag, { ...props, ...processAllPropsResult, ref: ref, sx: null }));
+            // console.log('processAllPropsResult', processAllPropsResult);
+            return (react_1.default.createElement(FinalTag, { ...processAllPropsResult, ref: ref, 
+                // remove old sx props
+                sx: null }));
         }
         else {
+            console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
+            console.error(`More info please vist: https://xxxxxx`);
             throw 'TailwindCssModuleProvider is not found';
         }
     });
+    // This enables the react tree to show a name in devtools, much better debugging experience Note: Far from perfect, better implementations welcome
+    if (typeof Element !== "string") {
+        TailwindComponent.displayName = Element.displayName || Element.name || "tw.Component";
+    }
+    else {
+        TailwindComponent.displayName = "tw." + Element;
+    }
+    return TailwindComponent;
 };
 exports.default = createStyled;
