@@ -4,5 +4,5 @@ export default styledParser;
 
 
 
-import { TailwindCssModuleContext, TailwindCssModuleProvider } from './Provider';
-export { TailwindCssModuleContext, TailwindCssModuleProvider };
+import { TailwindStyledMapContext } from './Provider';
+export { TailwindStyledMapContext };

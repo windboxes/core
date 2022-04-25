@@ -1,28 +1,40 @@
-import React, { useContext } from 'react'
-import elementsArray from './elementTags';
+import React, { useContext } from 'react';
+// import elementsArray from './elementTags';
 
 
 
-import { CSSModuleClasses, TailwindCssModuleContext } from './Provider';
+import { CSSModuleClasses, TailwindStyledMapContext } from './Provider';
 
+
+
+
+// convert tailwind class name to css module class name
+const convertToClassName = (styledmap: Array<string>, tailwind: CSSModuleClasses) => {
+  let classList = '';
+
+  styledmap?.forEach((item, index) => {
+    if (index !== styledmap.length - 1) {
+      classList += `${tailwind[item]} `;
+    } else {
+      classList += tailwind[item];
+    }
+    // console.log('item', tw[item]);
+  });
+
+  return classList;
+}
 
 
 
 // process styled map then return class name
 const processStyledMap = (classList: string, sxProps: Array<string>, tailwind: CSSModuleClasses): string => {
-  let sxStyledList = '';
-
-  sxProps?.forEach((item, index) => {
-    if (index !== sxProps.length - 1) {
-      sxStyledList += `${tailwind[item]} `;
-    } else {
-      sxStyledList += tailwind[item];
-    }
-  });
-
+  const sxStyledList = convertToClassName(sxProps, tailwind);
   // console.log('sxProps', sxProps);
   // console.log('sxStyledList', sxStyledList);
-  return classList ? `${classList} ${sxStyledList}` : sxStyledList;
+
+  return classList && sxStyledList
+    ? `${classList} ${sxStyledList}`
+    : classList || sxStyledList || '';
 }
 
 
@@ -40,27 +52,18 @@ const mergeOldClass = (oldClass: string, newClass: string | null): string | null
 
 
 
-const processAll = ({ props, styledmap, tailwind } : { props: any, styledmap?: Array<string>, tailwind: CSSModuleClasses}) => {
-  let classList = '';
 
-  styledmap?.forEach((item, index) => {
-    if (index !== styledmap.length - 1) {
-      classList += `${tailwind[item]} `;
-    } else {
-      classList += tailwind[item];
-    }
-    // console.log('item', tw[item]);
-  });
+const processAll = ({ props, styledmap, tailwind }: { props: any, styledmap?: Array<string>, tailwind: CSSModuleClasses }) => {
+  const classList = styledmap ? convertToClassName(styledmap, tailwind) : '';
 
+  // merge with sx
   const clacSxAndClassListResult = processStyledMap(classList, props?.sx, tailwind);
 
-  // remove sx props
   const newProps = {
     ...props,
     // sx: null,
-    className: mergeOldClass(props.className, clacSxAndClassListResult ? clacSxAndClassListResult : null, tailwind),
+    className: mergeOldClass(props.className, clacSxAndClassListResult ? clacSxAndClassListResult : null),
   }
-
   return newProps;
 }
 
@@ -69,29 +72,41 @@ const processAll = ({ props, styledmap, tailwind } : { props: any, styledmap?: A
 const createStyled = (tag: string, styledmap?: Array<string>) => {
   // console.log('styledmap', styledmap);
   const FinalTag = tag;
+  // const FinalElement = Element
 
   // console.log('result classList', classList);
 
-  return React.forwardRef<any, any>((props, ref) => {
-    const { tailwind } = useContext(TailwindCssModuleContext);
+  const TailwindComponent = React.forwardRef<any, any>((props, ref) => {
+    const { tailwind } = useContext(TailwindStyledMapContext);
 
-    if (tailwind !== null) {
+    if (tailwind) {
       // console.log(tailwind);
-
-      const processAllPropsResult = processAll({props, styledmap, tailwind});
+      const processAllPropsResult = processAll({ props, styledmap, tailwind });
+      // console.log('processAllPropsResult', processAllPropsResult);
 
       return (
         <FinalTag
-          {...props}
           {...processAllPropsResult}
           ref={ref}
+          // remove old sx props
           sx={null}
         />
       )
     } else {
+      console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
+      console.error(`More info please vist: https://xxxxxx`);
       throw 'TailwindCssModuleProvider is not found';
     }
   });
+
+  // This enables the react tree to show a name in devtools, much better debugging experience Note: Far from perfect, better implementations welcome
+  if (typeof Element !== "string") {
+    TailwindComponent.displayName = (Element as any).displayName || (Element as any).name || "tw.Component"
+  } else {
+    TailwindComponent.displayName = "tw." + Element
+  }
+
+  return TailwindComponent;
 }
 
 

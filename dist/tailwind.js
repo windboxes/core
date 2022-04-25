@@ -24,55 +24,64 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
-let calcStart = 0;
 const Provider_1 = require("./Provider");
-const createStyled = (tag, styledmap) => {
-    const tw = (0, react_1.useContext)(Provider_1.TailwindCssModuleContext);
-    // console.log('styledmap', styledmap);
-    // process styled map then return class name
-    const processStyledMap = (classList, sxProps) => {
-        let sxStyledList = '';
-        sxProps?.forEach((item, index) => {
-            if (index !== sxProps.length - 1) {
-                sxStyledList += `${tw[item]} `;
-            }
-            else {
-                sxStyledList += tw[item];
-            }
-        });
-        // console.log('sxProps', sxProps);
-        // console.log('sxStyledList', sxStyledList);
-        return classList ? `${classList} ${sxStyledList}` : sxStyledList;
-    };
-    // merge class name
-    const mergeOldClass = (oldClass, newClass) => {
-        const oldClassString = oldClass ? oldClass : null;
-        const newClassString = newClass ? newClass : null;
-        // console.log('oldClassString', oldClassString);
-        // console.log('newClassString', newClassString);
-        return oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
-    };
-    const FinalTag = tag;
+// process styled map then return class name
+const processStyledMap = (classList, sxProps, tailwind) => {
+    let sxStyledList = '';
+    sxProps?.forEach((item, index) => {
+        if (index !== sxProps.length - 1) {
+            sxStyledList += `${tailwind[item]} `;
+        }
+        else {
+            sxStyledList += tailwind[item];
+        }
+    });
+    // console.log('sxProps', sxProps);
+    // console.log('sxStyledList', sxStyledList);
+    return classList ? `${classList} ${sxStyledList}` : sxStyledList;
+};
+// merge class name
+const mergeOldClass = (oldClass, newClass) => {
+    const oldClassString = oldClass ? oldClass : null;
+    const newClassString = newClass ? newClass : null;
+    // console.log('oldClassString', oldClassString);
+    // console.log('newClassString', newClassString);
+    return oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
+};
+const processAll = ({ props, styledmap, tailwind }) => {
     let classList = '';
     styledmap?.forEach((item, index) => {
         if (index !== styledmap.length - 1) {
-            classList += `${tw[item]} `;
+            classList += `${tailwind[item]} `;
         }
         else {
-            classList += tw[item];
+            classList += tailwind[item];
         }
         // console.log('item', tw[item]);
     });
+    const clacSxAndClassListResult = processStyledMap(classList, props?.sx, tailwind);
+    // remove sx props
+    const newProps = {
+        ...props,
+        // sx: null,
+        className: mergeOldClass(props.className, clacSxAndClassListResult ? clacSxAndClassListResult : null),
+    };
+    return newProps;
+};
+const createStyled = (tag, styledmap) => {
+    // console.log('styledmap', styledmap);
+    const FinalTag = tag;
     // console.log('result classList', classList);
     return react_1.default.forwardRef((props, ref) => {
-        const clacSxAndClassListResult = processStyledMap(classList, props?.sx);
-        // remove sx props
-        const newProps = {
-            ...props,
-            // sx: null,
-            className: mergeOldClass(props.className, clacSxAndClassListResult ? clacSxAndClassListResult : null),
-        };
-        return (react_1.default.createElement(FinalTag, { ...newProps, ref: ref, sx: null }));
+        const { tailwind } = (0, react_1.useContext)(Provider_1.TailwindCssModuleContext);
+        if (tailwind) {
+            // console.log(tailwind);
+            const processAllPropsResult = processAll({ props, styledmap, tailwind });
+            return (react_1.default.createElement(FinalTag, { ...props, ...processAllPropsResult, ref: ref, sx: null }));
+        }
+        else {
+            throw 'TailwindCssModuleProvider is not found';
+        }
     });
 };
 exports.default = createStyled;

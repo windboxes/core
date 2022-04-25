@@ -16,7 +16,7 @@
     "outDir": "./dist",
     "moduleResolution": "node",
     // Generate d.ts files
-    "declaration": true,
+    // "declaration": true,
     // This compiler run should
     // only output d.ts files
     // "emitDeclarationOnly": true,
