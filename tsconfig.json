@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "strict": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "sourceMap": false,
+    "allowJs": true,
+    "target": "ESNext",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "moduleResolution": "node"
+  },
+  "exclude": ["node_modules", "test", "dist"]
+}
