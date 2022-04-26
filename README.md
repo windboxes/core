@@ -55,7 +55,7 @@ const StyledButton = styled('button', [
 const StyledButton = styled.button('p-3 flex flex-row justify-center items-center bg-indigo-400 text-white rounded-lg shadow-lg focus:outline-none active:bg-indigo-800 disabled:opacity-80');
 ```
 
-#### Result
+#### Render result
 ```html
 <button type="button" class="aIT _2Mk zAy jk2 fIN rgD DpE MR3 _52r n6G j-O dkR LdE aIT">button</button>
 ```
