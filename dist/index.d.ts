@@ -8,6 +8,7 @@ export default styledParser;
 export declare type CSSModuleClasses = {
   readonly [key: string]: string;
 };
+
 export declare const TailwindStyledMapContext: React.Context<{
   tailwind: CSSModuleClasses | null;
 }>;
