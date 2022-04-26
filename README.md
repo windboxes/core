@@ -66,7 +66,8 @@ The length of the class name can usually be customized and can be short
 ```
 
 ## with sx prop
-When you create a component, but need to set margin or padding or more...
+When you create a component, but want to set more styles, e.g. margin or padding or more...
+
 You can try this:
 
 ```tsx
