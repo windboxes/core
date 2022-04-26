@@ -56,62 +56,59 @@ const convertToClassNameArrays = (styledmap: string[] | string, tailwind: CSSMod
 
 
 // create styled component
-const createStyled =
-  <E extends React.ComponentType<any> | IntrinsicElementsKeys>
-    (Element: E, styledmap?: Array<string> | string) => {
-    // console.log('Element', Element)
-    // console.log('styledmap', styledmap);
+const createStyled = <E extends React.ComponentType<any> | IntrinsicElementsKeys>(Element: E, styledmap?: Array<string> | string) => {
+  // console.log('Element', Element)
+  // console.log('styledmap', styledmap);
 
-    const TailwindCssModuleComponent: any = React.forwardRef<any, any>(({ as, ...props }, ref) => {
-      const { tailwind } = useContext(TailwindStyledMapContext);
+  const TailwindCssModuleComponent: any = React.forwardRef<any, any>(({ as, ...props }, ref) => {
+    const { tailwind } = useContext(TailwindStyledMapContext);
 
-      const FinalElement = as || Element;
+    const FinalElement = as || Element;
 
-      if (tailwind) {
-        // cache class map
-        let styledMapArrays: string[] = [];
+    if (tailwind) {
+      // cache class map
+      let styledMapArrays: string[] = [];
 
-        if (styledmap !== undefined) {
-          if(typeof styledmap === 'string') {
-            styledMapArrays = convertToClassNameArrays(cleanTemplate([styledmap]), tailwind);
-          } else {
-            styledMapArrays = convertToClassNameArrays(styledmap, tailwind);
-          }
-          // console.log('styledMapArrays', styledMapArrays);
-        }
-
-        let sxStyledListArrays: string[] = [];
-        // sx props
-        if(typeof props?.sx === 'string') {
-          sxStyledListArrays = convertToClassNameArrays(cleanTemplate([props?.sx]), tailwind);
+      if (styledmap !== undefined) {
+        if (typeof styledmap === 'string') {
+          styledMapArrays = convertToClassNameArrays(cleanTemplate([styledmap]), tailwind);
         } else {
-          sxStyledListArrays = convertToClassNameArrays(props?.sx, tailwind);
+          styledMapArrays = convertToClassNameArrays(styledmap, tailwind);
         }
-
-        // merge sx and styled map
-        const mergeAllStyleArrays = styledMapArrays.concat(sxStyledListArrays);
-
-        // console.log('mergeAllStyleArrays', mergeAllStyleArrays);
-
-        // remove processed props
-        const filterProps = Object.fromEntries(Object.entries(props).filter(([key]) => !key.includes('sx') && !key.includes('as')));
-
-        return (
-          <FinalElement
-            className={twMerge(...mergeAllStyleArrays, props.className)}
-            ref={ref}
-            {...filterProps}
-          />
-        );
-      } else {
-        console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
-        console.error(`More info please vist: https://xxxxxx`);
-        throw 'TailwindCssModuleProvider is not found';
+        // console.log('styledMapArrays', styledMapArrays);
       }
-    });
 
-    return TailwindCssModuleComponent;
-  }
+      let sxStyledListArrays: string[] = [];
+      // sx props
+      if (typeof props?.sx === 'string') {
+        sxStyledListArrays = convertToClassNameArrays(cleanTemplate([props?.sx]), tailwind);
+      } else {
+        sxStyledListArrays = convertToClassNameArrays(props?.sx, tailwind);
+      }
+
+      // merge sx and styled map
+      const mergeAllStyleArrays = styledMapArrays.concat(sxStyledListArrays);
+      // console.log('mergeAllStyleArrays', mergeAllStyleArrays);
+
+      // remove processed props
+      const filterProps = Object.fromEntries(Object.entries(props).filter(([key]) => !key.includes('sx') && !key.includes('as')));
+
+      return (
+        <FinalElement
+          className={twMerge(...mergeAllStyleArrays, props.className)}
+          ref={ref}
+          {...filterProps}
+        />
+      );
+    } else {
+      console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
+      console.error(`More info vist: https://github.com/SnowFireWolf/tailwind-styled-map`);
+      throw 'TailwindCssModuleProvider is not found';
+    }
+  });
+
+  return TailwindCssModuleComponent;
+}
 
 
 
