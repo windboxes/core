@@ -58,6 +58,8 @@ const StyledButton = styled('button', [
 ```
 
 #### Render result
+The length of the class name can usually be customized and can be short
+
 ```html
 <button type="button" class="aIT _2Mk zAy jk2 fIN rgD DpE MR3 _52r n6G j-O dkR LdE aIT">button</button>
 ```
