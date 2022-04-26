@@ -10,32 +10,61 @@ import { CSSModuleClasses, TailwindStyledMapContext } from './Provider';
 
 
 // convert tailwind class name to css module class name
-const convertToClassName = (styledmap: Array<string>, tailwind: CSSModuleClasses) => {
+const convertToClassName = (styledmap: Array<string> | string, tailwind: CSSModuleClasses) => {
   let classList = '';
+  let styledMapArray: Array<string> = [];
 
-  styledmap?.forEach((item, index) => {
-    if (index !== styledmap.length - 1) {
-      classList += `${tailwind[item]} `;
-    } else {
-      classList += tailwind[item];
+  if (typeof styledmap === 'object') {
+    styledMapArray = styledmap;
+  } else if (typeof styledmap === 'string') {
+    // console.log('string process engine');
+    const splitString = styledmap.split(' ');
+    styledMapArray = splitString;
+  }
+
+  // console.log('styledMapArray', styledMapArray);
+  // filter undefined and empty element
+  styledMapArray = styledMapArray.filter(item => item !== undefined && item !== 'undefined' && item !== '');
+
+  styledMapArray?.forEach((item, index) => {
+    if(tailwind[item] !== undefined) {
+      if (index !== styledMapArray.length - 1 && styledMapArray.length !== 1) {
+        classList += `${tailwind[item]} `;
+      } else {
+        classList += tailwind[item];
+      }
+      // console.log('item', tailwind[item]);
     }
-    // console.log('item', tw[item]);
   });
 
+  // console.log('classList', classList);
   return classList;
 }
 
 
 
 // process styled map then return class name
-const processStyledMap = (classList: string, sxProps: Array<string>, tailwind: CSSModuleClasses): string => {
-  const sxStyledList = convertToClassName(sxProps, tailwind);
+const processSxStyledMapAndMerge = (classList: string, sxProps: Array<string>, tailwind: CSSModuleClasses): string => {
+  // console.log('classList', classList);
   // console.log('sxProps', sxProps);
+
+  let newClassNameList = '';
+
+  if (classList && classList !== 'undefined') {
+    newClassNameList += classList;
+  }
+
+  const sxStyledList = convertToClassName(sxProps, tailwind);
   // console.log('sxStyledList', sxStyledList);
 
-  return classList && sxStyledList
-    ? `${classList} ${sxStyledList}`
-    : classList || sxStyledList || '';
+  if(newClassNameList.length > 0) {
+    newClassNameList += ` ${sxStyledList}`;
+  } else {
+    newClassNameList += sxStyledList;
+  }
+
+  // console.log('newClassNameList', newClassNameList);
+  return newClassNameList;
 }
 
 
@@ -48,41 +77,48 @@ const mergeOldClass = (oldClass: string, newClass: string | null): string | null
   // console.log('oldClassString', oldClassString);
   // console.log('newClassString', newClassString);
 
-  return oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
+  const result = oldClassString ? `${oldClassString} ${newClassString}` : newClassString;
+  // console.log('result', result);
+
+  return result;
 }
 
 
 
 
-const processAll = ({ props, styledmap, tailwind }: { props: any, styledmap?: Array<string>, tailwind: CSSModuleClasses }) => {
-  const classList = styledmap ? convertToClassName(styledmap, tailwind) : '';
+const processAll = ({ props, styledmap, tailwind }: { props: any, styledmap?: Array<string> | string, tailwind: CSSModuleClasses }) => {
+  // console.log('sx props', props?.sx);
+  // console.log('styledmap', styledmap);
 
+  const classList = styledmap ? convertToClassName(styledmap, tailwind) : '';
   // merge with sx
-  const clacSxAndClassListResult = processStyledMap(classList, props?.sx, tailwind);
+  const clacSxAndClassListResult = processSxStyledMapAndMerge(classList, props?.sx, tailwind);
+  // merge all class
+  const mergeClassNameResult = mergeOldClass(props.className, clacSxAndClassListResult);
 
   const newProps = {
     ...props,
     // sx: null,
-    className: mergeOldClass(props.className, clacSxAndClassListResult ? clacSxAndClassListResult : null),
+    className: mergeClassNameResult ? mergeClassNameResult : null,
   }
+
   return newProps;
 }
 
 
 
 
-const createStyled = (tag: string, styledmap?: Array<string>) => {
+const createStyled = (tag: string, styledmap?: Array<string> | string) => {
   // console.log('styledmap', styledmap);
   const FinalTag = tag;
-  // const FinalElement = Element
 
   // console.log('result classList', classList);
 
   const TailwindComponent = React.forwardRef<any, any>((props, ref) => {
     const { tailwind } = useContext(TailwindStyledMapContext);
+    // console.log(tailwind);
 
     if (tailwind) {
-      // console.log(tailwind);
       const processAllPropsResult = processAll({ props, styledmap, tailwind });
       // console.log('processAllPropsResult', processAllPropsResult);
 
@@ -114,14 +150,14 @@ const createStyled = (tag: string, styledmap?: Array<string>) => {
 
 
 export type tagFunctionsMap = {
-  [key in IntrinsicElementsKeys]: (styledmap?: Array<string>) => any
+  [key in IntrinsicElementsKeys]: (styledmap?: Array<string> | string) => any
 }
 
 
 
 const tagFunctions: tagFunctionsMap = elementsArray.reduce((acc, item) => ({
   ...acc,
-  [item]: (styledMap: Array<string>) => {
+  [item]: (styledMap: Array<string> | string) => {
     return createStyled(item, styledMap)
   },
 }), {} as any);
@@ -133,5 +169,5 @@ const tagFunctions: tagFunctionsMap = elementsArray.reduce((acc, item) => ({
 const styleTailwind = Object.assign(createStyled, tagFunctions);
 
 
- 
+
 export default styleTailwind;
