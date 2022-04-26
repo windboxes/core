@@ -4,5 +4,6 @@ export default styledParser;
 
 
 
-import { TailwindStyledMapContext } from './Provider';
-export { TailwindStyledMapContext };
+import { TailwindStyledMapContext, TailwindStyledMapProvider } from './Provider';
+
+export { TailwindStyledMapContext, TailwindStyledMapProvider };

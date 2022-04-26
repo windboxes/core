@@ -14,4 +14,4 @@ const TailwindContext = createContext<{ tailwind: CSSModuleClasses | null }>({
 
 // TailwindCssModuleContext
 export const TailwindStyledMapContext = TailwindContext;
-// export const TailwindCssModuleProvider = TailwindContext.Provider;
+export const TailwindStyledMapProvider = TailwindContext.Provider;
