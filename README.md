@@ -5,7 +5,7 @@ This pacakge requires **Tailwind css** and **css modules**.
 
 
 ## examples
-if you want create a button with array:
+if you want create a button with tailwind css module, Before, it was a nasty thing:
 
 #### Before
 ```tsx
@@ -17,8 +17,13 @@ import tw from '@/styles/tailwind.module.css';
 ```
 
 #### After
+Now, you can use array or string to create a tailwind css module component
+
 ```tsx
 import styled from 'tailwind-styled-map';
+
+// or
+const StyledButton = styled.button('p-3 flex flex-row justify-center items-center bg-indigo-400 text-white rounded-lg shadow-lg focus:outline-none active:bg-indigo-800 disabled:opacity-80');
 
 const StyledButton = styled.button([
   'p-3',
@@ -50,9 +55,6 @@ const StyledButton = styled('button', [
   'active:bg-indigo-800',
   'disabled:opacity-80',
 ]);
-
-// or
-const StyledButton = styled.button('p-3 flex flex-row justify-center items-center bg-indigo-400 text-white rounded-lg shadow-lg focus:outline-none active:bg-indigo-800 disabled:opacity-80');
 ```
 
 #### Render result
