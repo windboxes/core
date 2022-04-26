@@ -73,16 +73,20 @@ const createStyled =
 
         if (styledmap !== undefined) {
           if(typeof styledmap === 'string') {
-            const processStringnAndTemplate = cleanTemplate([styledmap]);
-            styledMapArrays = convertToClassNameArrays(processStringnAndTemplate, tailwind);
+            styledMapArrays = convertToClassNameArrays(cleanTemplate([styledmap]), tailwind);
           } else {
             styledMapArrays = convertToClassNameArrays(styledmap, tailwind);
           }
           // console.log('styledMapArrays', styledMapArrays);
         }
 
+        let sxStyledListArrays: string[] = [];
         // sx props
-        const sxStyledListArrays = convertToClassNameArrays(props?.sx, tailwind);
+        if(typeof props?.sx === 'string') {
+          sxStyledListArrays = convertToClassNameArrays(cleanTemplate([props?.sx]), tailwind);
+        } else {
+          sxStyledListArrays = convertToClassNameArrays(props?.sx, tailwind);
+        }
 
         // merge sx and styled map
         const mergeAllStyleArrays = styledMapArrays.concat(sxStyledListArrays);
