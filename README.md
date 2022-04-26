@@ -17,6 +17,44 @@ $ yarn add tailwind-styled-map
 
 
 
+
+
+## Usuage
+### import
+```ts
+import styled from 'tailwind-styled-map';
+```
+
+### set Tailwind css module Provider
+
+#### create a tailwind css module file:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+#### Set the Provider:
+```ts
+import React from 'react';
+import { TailwindStyledMapProvider } from "tailwind-styled-map";
+import twCssModule from "@/tailwind.module.css";
+
+export default function App() {
+  return (
+    <TailwindStyledMapProvider value={{ tailwind: twCssModule }}>
+      {
+        //...
+      }
+    </TailwindStyledMapProvider>
+  );
+}
+```
+
+
+
+
+
 ## Examples
 if you want create a button with tailwind css module, Before, it was a nasty thing:
 
@@ -78,7 +116,7 @@ The length of the class name can usually be customized and can be short
 <button type="button" class="aIT _2Mk zAy jk2 fIN rgD DpE MR3 _52r n6G j-O dkR LdE aIT">button</button>
 ```
 
-## with sx prop
+## With sx prop
 When you create a component, but want to set more styles, e.g. margin or padding or more...
 
 You can try this:
