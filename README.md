@@ -4,7 +4,20 @@ Create tailwind css react components use array or sx prop with css module.
 This pacakge requires **Tailwind css** and **css modules**.
 
 
-## examples
+## Installation
+### NPM
+```bash
+$ npm install tailwind-styled-map
+```
+
+### yarn
+```bash
+$ yarn add tailwind-styled-map
+```
+
+
+
+## Examples
 if you want create a button with tailwind css module, Before, it was a nasty thing:
 
 #### Before
