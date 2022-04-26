@@ -1,11 +1,38 @@
 import React, { useContext } from 'react';
 
 import elementsArray from './elementTags';
-type IntrinsicElementsKeys = keyof JSX.IntrinsicElements
-
-
 import { CSSModuleClasses, TailwindStyledMapContext } from './Provider';
+import { twMerge } from 'tailwind-merge';
 
+
+
+type IntrinsicElementsKeys = keyof JSX.IntrinsicElements;
+
+
+
+
+export const mergeArrays = (template: TemplateStringsArray, templateElements: (string | undefined | null)[]) => {
+  return template.reduce(
+    (acc, c, i) => acc.concat(c || [], templateElements[i] || []), //  x || [] to remove false values e.g '', null, undefined. as Array.concat() ignores empty arrays i.e []
+    [] as (string | undefined | null)[]
+  )
+}
+
+export const cleanTemplate = (template: (string | undefined | null)[], inheritedClasses: string = "") => {
+  const newClasses: string[] = template
+    .join(" ")
+    .trim()
+    .replace(/\n/g, " ") // replace newline with space
+    .replace(/\s{2,}/g, " ") // replace line return by space
+    .split(" ")
+    .filter((c) => c !== ",") // remove comma introduced by template to string
+
+  const inheritedClassesArray: string[] = inheritedClasses ? inheritedClasses.split(" ") : []
+
+  return newClasses
+    .concat(inheritedClassesArray) // add new classes to inherited classes
+    .filter((c: string) => c !== " ")
+}
 
 
 
@@ -16,6 +43,8 @@ const convertToClassName = (styledmap: Array<string> | string, tailwind: CSSModu
 
   if (typeof styledmap === 'object') {
     styledMapArray = styledmap;
+
+    // console.log(styledMapArray);
   } else if (typeof styledmap === 'string') {
     // console.log('string process engine');
     const splitString = styledmap.split(' ');
@@ -24,15 +53,45 @@ const convertToClassName = (styledmap: Array<string> | string, tailwind: CSSModu
 
   // console.log('styledMapArray', styledMapArray);
   // filter undefined and empty element
-  styledMapArray = styledMapArray.filter(item => item !== undefined && item !== 'undefined' && item !== '');
+  // styledMapArray = styledMapArray === null ? [] : styledMapArray.filter(item => item !== undefined && item !== 'undefined' && item !== '');
 
   styledMapArray?.forEach((item, index) => {
-    if(tailwind[item] !== undefined) {
+    if (tailwind[item] !== undefined) {
       if (index !== styledMapArray.length - 1 && styledMapArray.length !== 1) {
         classList += `${tailwind[item]} `;
       } else {
         classList += tailwind[item];
       }
+      // console.log('item', tailwind[item]);
+    }
+  });
+
+  // console.log('classList', classList);
+  return classList;
+}
+
+// convert tailwind class name to css module class name
+const convertToClassNameArrays = (styledmap: Array<string> | string, tailwind: CSSModuleClasses) => {
+  let classList: Array<string> = [];
+  let styledMapArray: Array<string> = [];
+
+  if (typeof styledmap === 'object') {
+    styledMapArray = styledmap;
+
+    // console.log(styledMapArray);
+  } else if (typeof styledmap === 'string') {
+    // console.log('string process engine');
+    const splitString = styledmap.split(' ');
+    styledMapArray = splitString;
+  }
+
+  // console.log('styledMapArray', styledMapArray);
+  // filter undefined and empty element
+  // styledMapArray = styledMapArray === null ? [] : styledMapArray.filter(item => item !== undefined && item !== 'undefined' && item !== '');
+
+  styledMapArray?.forEach((item, index) => {
+    if (tailwind[item] !== undefined) {
+      classList.push(tailwind[item]);
       // console.log('item', tailwind[item]);
     }
   });
@@ -57,7 +116,7 @@ const processSxStyledMapAndMerge = (classList: string, sxProps: Array<string>, t
   const sxStyledList = convertToClassName(sxProps, tailwind);
   // console.log('sxStyledList', sxStyledList);
 
-  if(newClassNameList.length > 0) {
+  if (newClassNameList.length > 0) {
     newClassNameList += ` ${sxStyledList}`;
   } else {
     newClassNameList += sxStyledList;
@@ -85,67 +144,99 @@ const mergeOldClass = (oldClass: string, newClass: string | null): string | null
 
 
 
+const createStyled =
+  <E extends React.ComponentType<any> | IntrinsicElementsKeys>
+    (Element: E, styledmap?: Array<string> | string) => {
+    // console.log('Element', Element)
+    // console.log('styledmap', styledmap);
 
-const processAll = ({ props, styledmap, tailwind }: { props: any, styledmap?: Array<string> | string, tailwind: CSSModuleClasses }) => {
-  // console.log('sx props', props?.sx);
-  // console.log('styledmap', styledmap);
+    return (template: TemplateStringsArray, ...templateElements: ((props: any) => string | undefined | null)[]) => {
+      // console.log('template', template);
+      // console.log('templateElements', templateElements);
 
-  const classList = styledmap ? convertToClassName(styledmap, tailwind) : '';
-  // merge with sx
-  const clacSxAndClassListResult = processSxStyledMapAndMerge(classList, props?.sx, tailwind);
-  // merge all class
-  const mergeClassNameResult = mergeOldClass(props.className, clacSxAndClassListResult);
+      const TailwindCssModuleComponent: any = React.forwardRef<any, any>(({ as, ...props }, ref) => {
+        const { tailwind } = useContext(TailwindStyledMapContext);
 
-  const newProps = {
-    ...props,
-    // sx: null,
-    className: mergeClassNameResult ? mergeClassNameResult : null,
-  }
+        const FinalElement = as || Element;
 
-  return newProps;
-}
+        if (tailwind) {
+          const mergedTemplate = mergeArrays(
+            template,
+            templateElements.map((t) => t({ ...props, as } as any))
+          );
 
 
 
+          if(styledmap !== undefined) {
+            console.log(styledmap);
+          }
 
-const createStyled = (tag: string, styledmap?: Array<string> | string) => {
-  // console.log('styledmap', styledmap);
-  const FinalTag = tag;
+          // template
+          const mergedClassArrays = cleanTemplate(mergedTemplate, props.className);
+          const templateClassArrays = convertToClassNameArrays(mergedClassArrays, tailwind);
 
-  // console.log('result classList', classList);
+          // sx props
+          const sxStyledListArrays = convertToClassNameArrays(props?.sx, tailwind);
 
-  const TailwindComponent = React.forwardRef<any, any>((props, ref) => {
-    const { tailwind } = useContext(TailwindStyledMapContext);
-    // console.log(tailwind);
+          // merge sx template
+          const mergeAllStyleArrays =  templateClassArrays.concat(sxStyledListArrays);
 
-    if (tailwind) {
-      const processAllPropsResult = processAll({ props, styledmap, tailwind });
-      // console.log('processAllPropsResult', processAllPropsResult);
+          // console.log('sxStyledListArrays', sxStyledListArrays);
+          // console.log('templateClassArrays', templateClassArrays);
+          // console.log('mergeAllStyleArrays', mergeAllStyleArrays);
 
-      return (
-        <FinalTag
-          {...processAllPropsResult}
-          ref={ref}
-          // remove old sx props
-          sx={null}
-        />
-      )
-    } else {
-      console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
-      console.error(`More info please vist: https://xxxxxx`);
-      throw 'TailwindCssModuleProvider is not found';
+          const filterProps = Object.fromEntries(Object.entries(props).filter(([key]) => !key.includes('sx') && !key.includes('as')));
+
+          return (
+            <FinalElement
+              className={twMerge(...mergeAllStyleArrays)}
+              ref={ref}
+              {...filterProps}
+            />
+          );
+        } else {
+          console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
+          console.error(`More info please vist: https://xxxxxx`);
+          throw 'TailwindCssModuleProvider is not found';
+        }
+      });
+
+      return TailwindCssModuleComponent;
+      // const TailwindCssModuleComponent: any = React.forwardRef<any, any>(({ as, ...props }, ref) => {
+      //   const { tailwind } = useContext(TailwindStyledMapContext);
+      //   // console.log(tailwind);
+      //   const FinalElement = as || Element;
+
+      //   if (tailwind) {
+      //     const processAllPropsResult = processAll({ props, styledmap, tailwind });
+      //     // console.log('processAllPropsResult', processAllPropsResult);
+
+      //     return (
+      //       <FinalElement
+      //         {...processAllPropsResult}
+      //         ref={ref}
+      //         // remove old sx props
+      //         sx={null}
+      //       />
+      //     )
+      //   } else {
+      //     console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
+      //     console.error(`More info please vist: https://xxxxxx`);
+      //     throw 'TailwindCssModuleProvider is not found';
+      //   }
+      // });
+
+      // // TailwindCssModuleComponent[isTwCssModuleElement] = true
+
+      // if (typeof Element !== "string") {
+      //   TailwindCssModuleComponent.displayName = (Element as any).displayName || (Element as any).name || "tw.Component"
+      // } else {
+      //   TailwindCssModuleComponent.displayName = "tw." + Element
+      // }
+
+      // return TailwindCssModuleComponent;
     }
-  });
-
-  // This enables the react tree to show a name in devtools, much better debugging experience Note: Far from perfect, better implementations welcome
-  if (typeof Element !== "string") {
-    TailwindComponent.displayName = (Element as any).displayName || (Element as any).name || "tw.Component"
-  } else {
-    TailwindComponent.displayName = "tw." + Element
   }
-
-  return TailwindComponent;
-}
 
 
 
