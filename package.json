@@ -1,7 +1,7 @@
 {
   "name": "tailwind-styled-map",
   "description": "Tailwind CSS Module styled map",
-  "version": "0.0.1-beta.14",
+  "version": "0.0.1-beta.15",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
@@ -22,13 +22,17 @@
     "html",
     "typescript",
     "tailwind",
+    "tailwind css",
     "css",
     "css modules",
+    "css-in-js",
     "map",
     "array",
     "styled",
     "styled components",
-    "styled map"
+    "styled map",
+    "sx",
+    "sx prop"
   ],
   "publishConfig": {
     "@snowfirewolf:registry": "https://npm.pkg.github.com"
