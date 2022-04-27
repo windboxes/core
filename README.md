@@ -3,10 +3,12 @@ Create tailwind css react components use array or sx prop with css module.
 
 This pacakge requires **Tailwind css** and **css modules**.
 
+If you want the best file size, try not to use styled-components or other css-in-js.
+
 
 
 ## Introduction
-if you want create a button with tailwind css module, Before, it was a nasty thing:
+If you want create a button with tailwind css module, Before, it was a nasty thing:
 
 ### Before
 ```tsx
