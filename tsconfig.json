@@ -5,7 +5,7 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "sourceMap": false,
-    "allowJs": true,
+    // "allowJs": true,
     "target": "ESNext",
     "lib": [
       "DOM",

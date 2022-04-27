@@ -57,7 +57,7 @@ const convertToClassNameArrays = (styledmap, tailwind) => {
         styledMapArray = splitString;
     }
     // console.log('styledMapArray', styledMapArray);
-    styledMapArray?.forEach((item) => {
+    styledMapArray.forEach((item) => {
         if (tailwind[item] !== undefined) {
             classList.push(tailwind[item]);
             // console.log('item', tailwind[item]);
@@ -87,11 +87,11 @@ const createStyled = (Element, styledmap) => {
             }
             let sxStyledListArrays = [];
             // sx props
-            if (typeof props?.sx === 'string') {
-                sxStyledListArrays = convertToClassNameArrays((0, exports.cleanTemplate)([props?.sx]), tailwind);
+            if (typeof props.sx === 'string') {
+                sxStyledListArrays = convertToClassNameArrays((0, exports.cleanTemplate)([props.sx]), tailwind);
             }
             else {
-                sxStyledListArrays = convertToClassNameArrays(props?.sx, tailwind);
+                sxStyledListArrays = convertToClassNameArrays(props.sx, tailwind);
             }
             // merge sx and styled map
             const mergeAllStyleArrays = styledMapArrays.concat(sxStyledListArrays);
@@ -102,7 +102,7 @@ const createStyled = (Element, styledmap) => {
         }
         else {
             console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
-            console.error(`More info please vist: https://xxxxxx`);
+            console.error(`More info vist: https://github.com/SnowFireWolf/tailwind-styled-map`);
             throw 'TailwindCssModuleProvider is not found';
         }
     });
