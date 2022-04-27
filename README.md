@@ -173,10 +173,6 @@ $ yarn add tailwind-styled-map
 
 
 ## Usuage
-### import
-```ts
-import styled from 'tailwind-styled-map';
-```
 
 ### Set Tailwind css module Provider
 
