@@ -4,6 +4,61 @@ Create tailwind css react components use array or sx prop with css module.
 This pacakge requires **Tailwind css** and **css modules**.
 
 
+
+## Introduction
+### Create a tailwind css module components in anywhere, no need to import css module file.
+
+You can create custom styles faster with the sx prop, only need use **tailwind utilities**.
+
+As long as it is used properly, there will be **no duplicate** css styles.
+
+The processed class name can also be made very **short**.
+
+### a component example
+```jsx
+import React from 'react';
+import styled from 'tailwind-styled-map';
+
+// template string
+const StyledButton = styled('button', `
+  px-4
+  py-2
+  font-medium
+  tracking-wide
+  text-white
+  capitalize
+  transition-colors 
+  duration-200
+  transform
+  bg-blue-600
+  rounded-md
+  hover:bg-blue-700
+  focus:outline-none
+  focus:ring
+  focus:ring-blue-300
+  focus:ring-opacity-80
+`);
+
+export default function App() {
+  return (
+    <StyledButton>Button</StyledButton>
+  );
+}
+
+// render result with generateScopedName: "[hash:base64:3]"
+<button class="X67 L3p Mrb D2q DpE _7zF qyb fS8 IsM PIm qeX Ihl n6G qw1 CIz YAB LdE">Button</button>
+```
+
+
+
+### Tailwind sx example
+![image](https://user-images.githubusercontent.com/14024836/165496844-e8b257ac-2824-4694-9bef-eee27a3481f4.png)
+
+
+
+
+
+
 ## Installation
 ### NPM
 ```bash
@@ -19,13 +74,14 @@ $ yarn add tailwind-styled-map
 
 
 
+
 ## Usuage
 ### import
 ```ts
 import styled from 'tailwind-styled-map';
 ```
 
-### set Tailwind css module Provider
+### Set Tailwind css module Provider
 
 #### create a tailwind css module file:
 ```css
@@ -35,6 +91,8 @@ import styled from 'tailwind-styled-map';
 ```
 
 #### Set the Provider:
+*⚠️ Must be imported, otherwise tailwind-styled-map cannot be used anywhere*
+
 ```ts
 import React from 'react';
 import { TailwindStyledMapProvider } from "tailwind-styled-map";
@@ -51,8 +109,10 @@ export default function App() {
 }
 ```
 
-
-
+#### Now you can use in any where in Provider
+```ts
+import styled from 'tailwind-styled-map';
+```
 
 
 ## Examples
