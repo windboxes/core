@@ -133,9 +133,9 @@ https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
 }
 
 "tailwindCSS.experimental.classRegex": [
-    "sx\\=`([^`]*)", // sx=`...` : for sx template string
-    "styled\\`|'([^`|']*)", // array styled('button', ['...', '...']);
-    "styled\\S[^`]+`([^`]*)", // template string styled, e.g. styled('button', `...`)
+    "sx\\=`([^`]*)`", // sx=`...` : for sx template string
+    "styled\\`|'([^`|']*)'", // array styled('button', ['...', '...']);
+    "styled\\S[^`]+`([^`]*)`" // template string styled, e.g. styled('button', `...`)
 ]
 ```
 
