@@ -42,7 +42,8 @@ const convertToClassNameArrays = (styledmap: string[] | string, tailwind: CSSMod
   // console.log('styledMapArray', styledMapArray);
 
   for (let i = 0; i < styledMapArray.length; i++) {
-    if (tailwind[i] !== undefined) {
+    const item = styledMapArray[i];
+    if (tailwind[item] !== undefined) {
       classList.push(tailwind[i]);
     }
   }
