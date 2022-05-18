@@ -133,9 +133,9 @@ https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
 }
 
 "tailwindCSS.experimental.classRegex": [
-    "sx\\=`([^`]*)", // sx=`...` : for sx template string
-    "styled\\`|'([^`|']*)", // array styled('button', ['...', '...']);
-    "styled\\S[^`]+`([^`]*)", // template string styled, e.g. styled('button', `...`)
+    "sx\\=`([^`]*)`", // sx=`...` : for sx template string
+    "styled\\`|'([^`|']*)'", // array styled('button', ['...', '...']);
+    "styled\\S[^`]+`([^`]*)`" // template string styled, e.g. styled('button', `...`)
 ]
 ```
 
@@ -173,10 +173,6 @@ $ yarn add tailwind-styled-map
 
 
 ## Usuage
-### import
-```ts
-import styled from 'tailwind-styled-map';
-```
 
 ### Set Tailwind css module Provider
 
