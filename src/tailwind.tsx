@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 
 import elementsArray from './elementTags';
 import { CSSModuleClasses, TailwindStyledMapContext } from './Provider';
-import { twMerge } from 'tailwind-merge';
 
 
 
@@ -55,6 +54,12 @@ const convertToClassNameArrays = (styledmap: string[] | string, tailwind: CSSMod
 
 
 
+const mergeClasses = (...classes: string[]) => {
+  return classes.join(' ').trim();
+}
+
+
+
 // create styled component
 const createStyled = <E extends React.ComponentType<any> | IntrinsicElementsKeys>(Element: E, styledmap?: Array<string> | string) => {
   // console.log('Element', Element)
@@ -93,9 +98,13 @@ const createStyled = <E extends React.ComponentType<any> | IntrinsicElementsKeys
       // remove processed props
       const filterProps = Object.fromEntries(Object.entries(props).filter(([key]) => !key.includes('sx') && !key.includes('as')));
 
+      const classes = mergeClasses(...mergeAllStyleArrays);
+      // const classes = twMerge(...mergeAllStyleArrays);
+      // console.log('classes', classes);
+
       return (
         <FinalElement
-          className={twMerge(...mergeAllStyleArrays, props.className)}
+          className={classes ? classes : null}
           ref={ref}
           {...filterProps}
         />
@@ -106,6 +115,12 @@ const createStyled = <E extends React.ComponentType<any> | IntrinsicElementsKeys
       throw 'TailwindCssModuleProvider is not found';
     }
   });
+
+  if (typeof Element !== "string") {
+    TailwindCssModuleComponent.displayName = (Element as any).displayName || (Element as any).name || "tw.Component"
+  } else {
+    TailwindCssModuleComponent.displayName = "tw." + Element
+  }
 
   return TailwindCssModuleComponent;
 }
