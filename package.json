@@ -1,7 +1,7 @@
 {
   "name": "tailwind-styled-map",
   "description": "Tailwind CSS Module styled map",
-  "version": "0.0.1-beta.22",
+  "version": "0.0.1-beta.24",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
