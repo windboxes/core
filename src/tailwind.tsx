@@ -41,12 +41,17 @@ const convertToClassNameArrays = (styledmap: string[] | string, tailwind: CSSMod
 
   // console.log('styledMapArray', styledMapArray);
 
-  styledMapArray.forEach((item) => {
-    if (tailwind[item] !== undefined) {
-      classList.push(tailwind[item]);
-      // console.log('item', tailwind[item]);
+  for (let i = 0; i < styledMapArray.length; i++) {
+    if (tailwind[i] !== undefined) {
+      classList.push(tailwind[i]);
     }
-  });
+  }
+  // styledMapArray.forEach((item) => {
+  //   if (tailwind[item] !== undefined) {
+  //     classList.push(tailwind[item]);
+  //     // console.log('item', tailwind[item]);
+  //   }
+  // });
 
   // console.log('classList', classList);
   return classList;
