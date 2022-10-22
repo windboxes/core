@@ -11,6 +11,8 @@ This pacakge requires **Tailwind css** and **css modules**.
 
 If you want the best file size, try not to use styled-components or other css-in-js.
 
+Example Project: https://github.com/SnowFireWolf/tailwind-styled-map-components-test
+
 
 
 ## Introduction
