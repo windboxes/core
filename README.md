@@ -1,7 +1,7 @@
 # Wind Boxes
-![Version](https://img.shields.io/github/languages/top/SnowFireWolf/tailwind-styled-map?style=for-the-badge)
-[![npm version](https://img.shields.io/npm/v/tailwind-styled-map?label=version&style=for-the-badge)](https://www.npmjs.com/package/tailwind-styled-map?style=for-the-badge)
-[![License](https://img.shields.io/npm/l/tailwind-styled-map?style=for-the-badge)](https://github.com/SnowFireWolf/tailwind-styled-map/blob/master/LICENSE)
+![Version](https://img.shields.io/github/languages/top/windboxes/core?style=for-the-badge)
+[![npm version](https://img.shields.io/npm/v/@windboxes/core?label=version&style=for-the-badge)](https://www.npmjs.com/package/@windboxes/core?style=for-the-badge)
+[![License](https://img.shields.io/npm/l/@windboxes/core?style=for-the-badge)](https://github.com/windboxes/core/blob/master/LICENSE)
 
 
 
