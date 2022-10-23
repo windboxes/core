@@ -72,13 +72,13 @@ interface StyledComponentProps {
 }
 
 export type TagFunctionsMap = {
-  [key in IntrinsicElementsKeys]: (styledMap?: Array<string> | string) => React.FC<StyledComponentProps>
+  [key in IntrinsicElementsKeys]: <Tags extends IntrinsicElementsKeys>(Element: Tags, styledMap?: string | Array<string>) => React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
 }
 
 
 
 // create styled component
-const createStyled = <C extends IntrinsicElementsKeys>(Element: C, styledMap?: string | Array<string>) => {
+const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags, styledMap?: string | Array<string>) => {
   // console.log('Element', Element)
   // console.log('styleMap', styleMap);
 
@@ -123,7 +123,7 @@ const createStyled = <C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
       return React.createElement(FinalElement, filterProps);
     } else {
       console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
-      console.error(`More info vist: https://github.com/windboxes/core`);
+      console.error(`More info visit: https://github.com/windboxes/core`);
       throw 'TailwindCssModuleProvider is not found';
     }
   };
@@ -143,10 +143,10 @@ const createStyled = <C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
 
 const tagFunctions: TagFunctionsMap = elementsArray.reduce((acc, item) => ({
   ...acc,
-  [item]: (styledMap: Array<string> | string) => {
+  [item]: (styledMap: string | Array<string>) => {
     return createStyled(item, styledMap);
   },
-}), {} as any);
+}), {} as TagFunctionsMap);
 // console.log('tagFunctions', tagFunctions);
 
 
