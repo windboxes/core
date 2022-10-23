@@ -15,8 +15,6 @@ You can use **array**, **string** and **sx prop** to change style or create a co
 
 This package requires **Tailwind css** and **css modules**.
 
-If you want the best file size, try not to use styled-components or other css-in-js.
-
 Example Project: https://github.com/windboxes/examples
 
 ## Installation
