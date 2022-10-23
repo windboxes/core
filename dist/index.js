@@ -1,1 +1,1 @@
-import r from"./tailwind";export default r;import{TailwindStyledMapContext as t,TailwindStyledMapProvider as e}from"./Provider";export{t as TailwindStyledMapContext,e as TailwindStyledMapProvider};
+import r from"./styled";export default r;import{TailwindStyledProvider as e,useTailwind as i}from"./Provider";export{e as TailwindStyledProvider,i as useTailwind};

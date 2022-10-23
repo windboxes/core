@@ -4,14 +4,29 @@ import React, { createContext } from 'react';
 
 export type CSSModuleClasses = { readonly [key: string]: string }
 
+type CSSModulesProviderProps = {
+  tailwind: CSSModuleClasses,
+  children: JSX.Element|JSX.Element[];
+}
 
+const TailwindContext = createContext<CSSModuleClasses>({});
 
-const TailwindContext = createContext<{ tailwind: CSSModuleClasses | null }>({
-  tailwind: null,
-});
+if (process.env.NODE_ENV !== 'production') {
+  TailwindContext.displayName = 'TailwindCssModuleContext';
+}
 
+export const useTailwind = () => React.useContext(TailwindContext);
 
+export const TailwindStyledProvider = (props: CSSModulesProviderProps) => {
+  let tailwind = React.useContext(TailwindContext);
 
-// TailwindCssModuleContext
-export const TailwindStyledMapContext = TailwindContext;
-export const TailwindStyledMapProvider = TailwindContext.Provider;
+  if (props.tailwind !== tailwind) {
+    tailwind = props.tailwind;
+  }
+
+  return (
+    <TailwindContext.Provider value={tailwind}>
+      {props.children}
+    </TailwindContext.Provider>
+  )
+}

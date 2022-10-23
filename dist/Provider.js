@@ -1,1 +1,1 @@
-import{createContext as e}from"react";const t=e({tailwind:null});export const TailwindStyledMapContext=t,TailwindStyledMapProvider=t.Provider;
+import i,{createContext as o}from"react";const n=o({});export const useTailwind=()=>i.useContext(n),TailwindStyledProvider=e=>{let t=i.useContext(n);return e.tailwind!==t&&(t=e.tailwind),i.createElement(n.Provider,{value:t},e.children)};
