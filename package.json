@@ -1,13 +1,11 @@
 {
   "name": "@windboxes/core",
   "description": "Create styled components with Tailwind & CSS module",
-  "version": "0.0.1-beta.8.2",
+  "version": "0.0.1-beta.8.4",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
-  "dependencies": {
-    "react": "^18.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^17.0.26",
     "@types/react": "^18.0.21",

@@ -6,7 +6,7 @@ export type CSSModulesProviderProps = {
   children: JSX.Element | JSX.Element[];
 }
 
-export declare const TailwindStyledProvider: React.Context<CSSModulesProviderProps>;
+export declare const TailwindStyledProvider: (props: CSSModulesProviderProps) => JSX.Element;
 
 
 
