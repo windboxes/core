@@ -4,7 +4,7 @@ import React, { createContext } from 'react';
 
 export type CSSModuleClasses = { readonly [key: string]: string }
 
-type CSSModulesProviderProps = {
+export type CSSModulesProviderProps = {
   tailwind: CSSModuleClasses,
   children: JSX.Element|JSX.Element[];
 }

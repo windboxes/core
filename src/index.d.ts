@@ -1,20 +1,16 @@
 /// <reference types="react" />
-declare const elementsArray: (keyof JSX.IntrinsicElements)[];
+export type CSSModuleClasses = { readonly [key: string]: string }
 
-import styledParser from './styled';
-export default styledParser;
+export type CSSModulesProviderProps = {
+  tailwind: CSSModuleClasses,
+  children: JSX.Element | JSX.Element[];
+}
+
+export declare const TailwindStyledProvider: React.Context<CSSModulesProviderProps>;
 
 
-export declare type CSSModuleClasses = {
-  readonly [key: string]: string;
-};
 
-export declare const TailwindStyledMapContext: React.Context<{
-  tailwind: CSSModuleClasses | null;
-}>;
+// declare const createStyled: (tag: string, styledMap?: string[] | undefined) => React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<any>>;
+declare const createStyled: <Tags extends keyof JSX.IntrinsicElements>(Element: Tags, styledMap?: string | Array<string>) => React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
 
-export declare const TailwindStyledMapProvider: React.Provider<{
-  tailwind: CSSModuleClasses | null;
-}>;
-
-declare const createStyled: (tag: string, styledMap?: string[] | undefined) => React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<any>>;
+export default createStyled;
