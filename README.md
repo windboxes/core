@@ -13,7 +13,7 @@ You can use **array**, **string** and **sx prop** to change style or create a co
 
 ## Introduction
 
-This package requires **Tailwind css** and **css modules**.
+This package requires **React**, **Tailwind css** and **css modules**.
 
 Example Project: https://github.com/windboxes/examples
 
@@ -194,7 +194,9 @@ import tw from '@/styles/tailwind.module.css';
 
 
 
-### Create a tailwind css module components in anywhere, no need to import css module file.
+### Create a tailwind css module components in anywhere
+
+You only need to import CSS modules once, we imported the file from the provider.
 
 You can create custom styles faster with the sx prop, only need use **tailwind utilities**.
 
