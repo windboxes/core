@@ -1,1 +1,0 @@
-import i,{createContext as n}from"react";const o=n({});export const useTailwind=()=>i.useContext(o),TailwindStyledProvider=e=>{let t=i.useContext(o);return e.tailwind!==t&&(t=e.tailwind),i.createElement(o.Provider,{value:t},e.children)};
