@@ -675,11 +675,6 @@ sucrase@^3.20.3:
     pirates "^4.0.1"
     ts-interface-checker "^0.1.9"
 
-tailwind-merge@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.7.0.tgz#4f980059720f3303aacfeef2ba0ef7bc8ac9948e"
-  integrity sha512-A7oBapTWhV9M4bwLtxLQS9ZpPrvcikp21l+Xhwbet5SbaxUVogbHGLy+VDZcHe4LHWE99RpRbSpCBKaVqBs5Og==
-
 thenify-all@^1.0.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/thenify-all/-/thenify-all-1.6.0.tgz#1a1918d402d8fc3f98fbf234db0bcc8cc10e9726"
