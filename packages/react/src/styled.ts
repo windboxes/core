@@ -63,7 +63,9 @@ const mergeClasses = (classes: string[]) => {
 
 
 
-interface StyledComponentProps {
+export type StyledComponent = React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
+
+export interface StyledComponentProps {
   className?: string | null;
   style?: Record<string, string>;
   sx?: string | string[];
@@ -72,13 +74,13 @@ interface StyledComponentProps {
 }
 
 export type TagFunctionsMap = {
-  [key in IntrinsicElementsKeys]: (styledMap?: string | Array<string>) => React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
+  [key in IntrinsicElementsKeys]: (styledMap?: string | Array<string>) => StyledComponent;
 }
 
 
 
 // create styled component
-const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags, styledMap?: string | Array<string>) => {
+const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags | StyledComponent | JSX.Element, styledMap?: string | Array<string>): StyledComponent => {
   // console.log('Element', Element)
   // console.log('styleMap', styleMap);
 
@@ -143,7 +145,7 @@ const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags, styledM
 
 const tagFunctions: TagFunctionsMap = elementsArray.reduce((acc, item) => ({
   ...acc,
-  [item]: (styledMap: string | Array<string>) => {
+  [item]: (styledMap: string | Array<string>): StyledComponent => {
     return createStyled(item, styledMap);
   },
 }), {} as TagFunctionsMap);
