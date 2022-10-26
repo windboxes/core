@@ -1,4 +1,5 @@
 import React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import elementsArray from './elementTags';
 import { CSSModuleClasses, useTailwind } from './provider';
@@ -57,7 +58,8 @@ const convertToClassNameArrays = (styledMap: string[] | string, tailwind: CSSMod
 }
 
 const mergeClasses = (classes: string[]) => {
-  return classes.join(' ').trim();
+  const classString = classes.join(' ').trim();
+  return twMerge(classString);
 }
 
 
