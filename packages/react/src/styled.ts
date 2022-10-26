@@ -131,9 +131,9 @@ const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags, styledM
   const TailwindCssModuleComponent = React.forwardRef(render);
 
   if (typeof Element !== "string") {
-    TailwindCssModuleComponent.displayName = (Element as any).displayName || (Element as any).name || "tw.Component"
+    TailwindCssModuleComponent.displayName = (Element as any).displayName || (Element as any).name;
   } else {
-    TailwindCssModuleComponent.displayName = "tw." + Element
+    TailwindCssModuleComponent.displayName = Element;
   }
 
   return TailwindCssModuleComponent;
