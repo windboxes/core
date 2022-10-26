@@ -5,7 +5,6 @@ import { CSSModuleClasses, useTailwind } from './provider';
 
 
 
-type IntrinsicElementsKeys = keyof JSX.IntrinsicElements;
 
 
 
@@ -63,9 +62,11 @@ const mergeClasses = (classes: string[]) => {
 
 
 
-export type StyledComponent = React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
+type IntrinsicElementsKeys = keyof JSX.IntrinsicElements;
 
-export interface StyledComponentProps {
+// export type StyledComponent<T> = React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
+
+export type StyledComponentProps = {
   className?: string | null;
   style?: Record<string, string>;
   sx?: string | string[];
@@ -73,14 +74,21 @@ export interface StyledComponentProps {
   [props: string]: unknown;
 }
 
+export type StyledComponent<T> = [T] extends [React.FunctionComponent<any>] ? T : React.FunctionComponent<T & {
+  sx?: string | string[];
+  as?: React.ElementType;
+}>;
+
+declare type HtmlStyledTag<TName extends keyof JSX.IntrinsicElements> = StyledComponent<JSX.IntrinsicElements[TName]>;
+
 export type TagFunctionsMap = {
-  [key in IntrinsicElementsKeys]: (styledMap?: string | Array<string>) => StyledComponent;
+  readonly [CName in IntrinsicElementsKeys]: (styledMap?: string | string[]) => HtmlStyledTag<CName>;
 }
 
 
 
 // create styled component
-const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags | StyledComponent | JSX.Element, styledMap?: string | Array<string>): StyledComponent => {
+const createStyled = <CName extends IntrinsicElementsKeys>(Element: CName | JSX.Element | React.ElementType, styledMap?: string | string[]): HtmlStyledTag<CName> => {
   // console.log('Element', Element)
   // console.log('styleMap', styleMap);
 
@@ -130,7 +138,7 @@ const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags | Styled
     }
   };
 
-  const TailwindCssModuleComponent = React.forwardRef(render);
+  const TailwindCssModuleComponent: any = React.forwardRef(render);
 
   if (typeof Element !== "string") {
     TailwindCssModuleComponent.displayName = (Element as any).displayName || (Element as any).name;
@@ -145,7 +153,7 @@ const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags | Styled
 
 const tagFunctions: TagFunctionsMap = elementsArray.reduce((acc, item) => ({
   ...acc,
-  [item]: (styledMap: string | Array<string>): StyledComponent => {
+  [item]: (styledMap: string | string[]) => {
     return createStyled(item, styledMap);
   },
 }), {} as TagFunctionsMap);
