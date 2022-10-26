@@ -122,9 +122,9 @@ const createStyled = <Tags extends IntrinsicElementsKeys>(Element: Tags, styledM
 
       return React.createElement(FinalElement, filterProps);
     } else {
-      console.error(`You need to import TailwindCssModuleContext to use styled-map.`);
+      console.error(`You need to import TailwindStyledProvider to use WindBoxes.`);
       console.error(`More info visit: https://github.com/windboxes/core`);
-      throw 'TailwindCssModuleProvider is not found';
+      throw 'TailwindStyledProvider is not found';
     }
   };
 
