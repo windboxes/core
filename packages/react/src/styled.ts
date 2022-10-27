@@ -122,12 +122,24 @@ const createStyled = <CName extends IntrinsicElementsKeys>(Element: CName | JSX.
       const mergeAllStyleArrays = styledMapArrays.concat(sxStyledListArrays);
       // console.log('mergeAllStyleArrays', mergeAllStyleArrays);
       const classes = mergeClasses(mergeAllStyleArrays);
-      // const classes = twMerge(...mergeAllStyleArrays);
       // console.log('classes', classes);
 
+      // merge props class name
+      // console.log('classnames', props.className);
+      let mergePropsClassName = '';
+      if(props.className) {
+        if(classes) {
+          mergePropsClassName = props.className + ' ' + classes;
+        } else {
+          mergePropsClassName = props.className;
+        }
+      } else {
+        mergePropsClassName = classes;
+      }
+
       // remove processed props
-      const filterProps: StyledComponentProps = Object.fromEntries(Object.entries(props).filter(([key]) => !key.includes('sx') && !key.includes('as')));
-      filterProps.className = classes ? classes : null;
+      const filterProps: StyledComponentProps = Object.fromEntries(Object.entries(props).filter(([key]) => !key.includes('sx') && !key.includes('as') && !key.includes('className')));
+      filterProps.className = mergePropsClassName ? mergePropsClassName : null;
       filterProps.ref = ref;
 
       return React.createElement(FinalElement, filterProps);
