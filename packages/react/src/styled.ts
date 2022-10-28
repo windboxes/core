@@ -88,7 +88,9 @@ export type TagFunctionsMap = {
 
 
 // create styled component
-const createStyled = <CName extends IntrinsicElementsKeys>(Element: CName | JSX.Element | React.ElementType, styledMap?: string | string[]): HtmlStyledTag<CName> => {
+function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: string | string[]): HtmlStyledTag<C>;
+function createStyled<C>(Element: C, styledMap?: string | string[]): StyledComponent<C>;
+function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: string | string[]): HtmlStyledTag<C> {
   // console.log('Element', Element)
   // console.log('styleMap', styleMap);
 
@@ -127,8 +129,8 @@ const createStyled = <CName extends IntrinsicElementsKeys>(Element: CName | JSX.
       // merge props class name
       // console.log('classnames', props.className);
       let mergePropsClassName = '';
-      if(props.className) {
-        if(classes) {
+      if (props.className) {
+        if (classes) {
           mergePropsClassName = props.className + ' ' + classes;
         } else {
           mergePropsClassName = props.className;
