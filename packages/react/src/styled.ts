@@ -74,7 +74,7 @@ export type StyledComponentProps = {
   [props: string]: unknown;
 }
 
-export type StyledComponent<T> = [T] extends [React.Component<any>] ? T : React.Component<T & {
+export type StyledComponent<T> = [T] extends [React.FunctionComponent<any>] ? T : React.FunctionComponent<T & {
   sx?: string | string[];
   as?: React.ElementType;
 }>;
