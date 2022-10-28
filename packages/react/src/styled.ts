@@ -66,7 +66,7 @@ type IntrinsicElementsKeys = keyof JSX.IntrinsicElements;
 
 // export type StyledComponent<T> = React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
 
-export type StyledComponentProps = {
+interface StyledComponentProps {
   className?: string | null;
   style?: Record<string, string>;
   sx?: string | string[];
@@ -74,10 +74,17 @@ export type StyledComponentProps = {
   [props: string]: unknown;
 }
 
-export type StyledComponent<T> = [T] extends [React.FunctionComponent<any>] ? T : React.FunctionComponent<T & {
-  sx?: string | string[];
-  as?: React.ElementType;
-}>;
+
+export type StyledComponent<T> = [T] extends [React.FunctionComponent<infer P>]
+  ? React.FunctionComponent<{
+    sx?: string | string[];
+    as?: React.ElementType;
+  } & P>
+  : React.FunctionComponent<{
+    sx?: string | string[];
+    as?: React.ElementType;
+  } & T>;
+
 
 declare type HtmlStyledTag<TName extends keyof JSX.IntrinsicElements> = StyledComponent<JSX.IntrinsicElements[TName]>;
 
