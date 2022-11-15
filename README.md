@@ -12,8 +12,9 @@ You also can inject new class into css modules file.
 You can use **array**, **string** and **sx prop** to change style and create a component.
 
 ## Introduction
-This package only support React now
 
-I'm trying support other framework for windboxes.
+### Core
+is here: [`@windboxes/core`](./packages/core)
 
-Now you can try [`@windboxes/react`](https://github.com/windboxes/core/tree/main/packages/react) 
+### React
+Now you can try [`@windboxes/react`](./packages/react)
