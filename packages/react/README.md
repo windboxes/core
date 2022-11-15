@@ -1,7 +1,7 @@
 # Wind Boxes
-![Version](https://img.shields.io/github/languages/top/windboxes/core?style=for-the-badge)
-[![npm version](https://img.shields.io/npm/v/@windboxes/core?label=version&style=for-the-badge)](https://www.npmjs.com/package/@windboxes/core?style=for-the-badge)
-[![License](https://img.shields.io/npm/l/@windboxes/core?style=for-the-badge)](https://github.com/windboxes/core/blob/master/LICENSE)
+![Version](https://img.shields.io/github/languages/top/windboxes/react?style=for-the-badge)
+[![npm version](https://img.shields.io/npm/v/@windboxes/react?label=version&style=for-the-badge)](https://www.npmjs.com/package/@windboxes/react?style=for-the-badge)
+[![License](https://img.shields.io/npm/l/@windboxes/react?style=for-the-badge)](https://github.com/windboxes/react/blob/master/LICENSE)
 
 
 
@@ -20,12 +20,12 @@ Example Project: https://github.com/windboxes/examples
 ## Installation
 ### NPM
 ```bash
-$ npm install @windboxes/core
+$ npm install @windboxes/react
 ```
 
 ### yarn
 ```bash
-$ yarn add @windboxes/core
+$ yarn add @windboxes/react
 ```
 
 
@@ -46,7 +46,7 @@ $ yarn add @windboxes/core
 
 ```ts
 import React from 'react';
-import { TailwindStyledProvider } from "@windboxes/core";
+import { TailwindStyledProvider } from "@windboxes/react";
 import twCssModule from "@/tailwind.module.css";
 
 export default function App() {
@@ -62,7 +62,7 @@ export default function App() {
 
 #### Now you can use in any where in Provider
 ```ts
-import styled from '@windboxes/core';
+import styled from '@windboxes/react';
 ```
 
 
@@ -73,7 +73,7 @@ import styled from '@windboxes/core';
 You can use array or string or template string to create a tailwind css module components
 
 ```jsx
-import styled from '@windboxes/core';
+import styled from '@windboxes/react';
 
 
 
@@ -144,7 +144,7 @@ You can try this:
 
 ```jsx
 import React from 'react';
-import styled from '@/windboxes/core';
+import styled from '@/windboxes/react';
 
 const Box = styled('div');
 const StyledButton = styled('button', 'p-3 flex flex-row justify-center items-center bg-indigo-400 text-white rounded-lg shadow-lg focus:outline-none active:bg-indigo-800 disabled:opacity-80');
@@ -207,7 +207,7 @@ The processed class name can also be made very **short**.
 ### a component example
 ```jsx
 import React from 'react';
-import styled from '@/windboxes/core';
+import styled from '@/windboxes/react';
 
 // template string
 const StyledButton = styled('button', `
