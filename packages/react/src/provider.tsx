@@ -2,7 +2,7 @@ import React, { createContext } from 'react';
 
 
 
-export type CSSModuleClasses = { readonly [key: string]: string }
+export type CSSModuleClasses = { readonly [key: string]: string };
 
 export type CSSModulesProviderProps = {
   tailwind: CSSModuleClasses,
