@@ -64,10 +64,28 @@ const mergeClasses = (classes: string[]) => {
 
 
 
+const parseStyle = (styledMap: string[] | string, cssModuleList: CSSModuleClasses): string => {
+  let styledMapArrays: string[] = [];
+
+  if (styledMap !== undefined) {
+    if (typeof styledMap === 'string') {
+      styledMapArrays = convertToClassNameArrays(cleanTemplate([styledMap]), cssModuleList);
+    } else {
+      styledMapArrays = convertToClassNameArrays(styledMap, cssModuleList);
+    }
+    // console.log('styledMapArrays', styledMapArrays);
+  }
+
+  return mergeClasses(styledMapArrays);
+}
+
+
+
 
 
 export {
   cleanTemplate,
   convertToClassNameArrays,
   mergeClasses,
+  parseStyle,
 }
