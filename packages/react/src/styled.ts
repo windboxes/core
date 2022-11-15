@@ -1,64 +1,12 @@
 import React from 'react';
+import {
+  cleanTemplate,
+  convertToClassNameArrays ,
+  mergeClasses,
+} from '@windboxes/core';
 
 import elementsArray from './elementTags';
-import { CSSModuleClasses, useTailwind } from './provider';
-
-
-
-
-
-
-const cleanTemplate = (template: (string | undefined | null)[]) => {
-  const newClasses: string[] = template
-    .join(" ")
-    .trim()
-    .replace(/\n/g, " ") // replace newline with space
-    .replace(/\s{2,}/g, " ") // replace line return by space
-    .split(" ")
-    .filter((c) => c !== ",") // remove comma introduced by template to string
-
-  return newClasses;
-}
-
-// convert tailwind class name to css module class name
-const convertToClassNameArrays = (styledMap: string[] | string, tailwind: CSSModuleClasses) => {
-  let classList: string[] = [];
-  let styledMapArray: string[] = [];
-
-  // check is array
-  if (typeof styledMap === 'object') {
-    styledMapArray = styledMap;
-    // console.log(styledMapArray);
-
-  } else if (typeof styledMap === 'string') {
-    // console.log('string process engine');
-    const splitString = styledMap.split(' ');
-    styledMapArray = splitString;
-  }
-
-  // console.log('styledMapArray', styledMapArray);
-
-  for (let i = 0; i < styledMapArray.length; i++) {
-    const item = styledMapArray[i];
-    // console.log('item', item);
-    if (tailwind[item] !== undefined) {
-      classList.push(tailwind[item]);
-    }
-  }
-  // styledMapArray.forEach((item) => {
-  //   if (tailwind[item] !== undefined) {
-  //     classList.push(tailwind[item]);
-  //     // console.log('item', tailwind[item]);
-  //   }
-  // });
-
-  // console.log('classList', classList);
-  return classList;
-}
-
-const mergeClasses = (classes: string[]) => {
-  return classes.join(' ').trim();
-}
+import { useTailwind } from './provider';
 
 
 

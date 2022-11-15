@@ -1,8 +1,7 @@
 import React, { createContext } from 'react';
+import type { CSSModuleClasses } from '@windboxes/core';
 
 
-
-export type CSSModuleClasses = { readonly [key: string]: string };
 
 export type CSSModulesProviderProps = {
   tailwind: CSSModuleClasses,
