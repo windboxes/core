@@ -16,4 +16,4 @@ This package only support React now
 
 I'm trying support other framework for windboxes.
 
-Now you can try [`@windboxes/react`](https://github.com/windboxes/core/react) 
+Now you can try [`@windboxes/react`](https://github.com/windboxes/core/tree/main/packages/react) 
