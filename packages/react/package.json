@@ -1,7 +1,7 @@
 {
   "name": "@windboxes/react",
   "description": "Create styled components with Tailwind & CSS module",
-  "version": "0.0.1-beta.1.1",
+  "version": "0.0.1-beta.1.2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "types/index.d.ts",
