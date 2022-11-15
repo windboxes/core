@@ -5,13 +5,12 @@
 
 
 
+## Introduction
 Wind Boxes is a tool for create tailwind & css modules components.
 
 You also can inject new class into css modules file.
 
 You can use **array**, **string** and **sx prop** to change style and create a component.
-
-## Introduction
 
 ### Core
 is here: [`@windboxes/core`](./packages/core)
