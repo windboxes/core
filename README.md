@@ -12,18 +12,8 @@ You also can inject new class into css modules file.
 You can use **array**, **string** and **sx prop** to change style and create a component.
 
 ## Introduction
+This package only support React now
 
-This package requires **React**, **Tailwind css** and **css modules**.
+I'm trying support other framework for windboxes.
 
-Example Project: https://github.com/windboxes/examples
-
-## Installation
-### NPM
-```bash
-$ npm install @windboxes/core
-```
-
-### yarn
-```bash
-$ yarn add @windboxes/core
-```
+Now you can try [`@windboxes/react`](https://github.com/windboxes/core/react) 
