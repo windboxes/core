@@ -3,6 +3,10 @@
 
 export type CSSModuleClasses = { readonly [key: string]: string };
 
+interface ICacheKeyMap {
+  [key: string]: string
+}
+
 
 
 const cleanTemplate = (template: (string | undefined | null)[]) => {
@@ -64,22 +68,60 @@ const mergeClasses = (classes: string[]) => {
 
 
 
+const processRepeatStyle = (styledMapArrays: string[]): string[] => {
+  let result: string[] = [];
+  let newStyleMap: ICacheKeyMap = {};
+  // let repeatList: string[] = [];
+
+  for(let index in styledMapArrays){
+    const split = styledMapArrays[index].split("-");
+    const styleKeyName = split[0];
+    const styleUtil = split[1];
+
+    // use map to merge, if array index is last, will replace first.
+    newStyleMap[styleKeyName] = styleUtil;
+
+    // if(!repeatList.find(name => name === styleKeyName)) {
+    //   // console.log('found ', styleKeyName);
+    //   repeatList.push(styleKeyName);
+    // }
+  }
+
+  for (let keyName in newStyleMap) {
+    const styleUtil = newStyleMap[keyName];
+    result.push(keyName + '-' + styleUtil);
+
+    // console.log('keyName', keyName);
+    // console.log('styleUtil', styleUtil);
+  }
+  // console.log("newStyleMap", newStyleMap);
+
+  // console.log("repeatList", repeatList);
+  // console.log('result', result);
+
+  return result;
+}
+
+
+
 const parseStyle = (styledMap: string[] | string, cssModuleList: CSSModuleClasses): string => {
   let styledMapArrays: string[] = [];
 
   if (styledMap !== undefined) {
     if (typeof styledMap === 'string') {
-      styledMapArrays = convertToClassNameArrays(cleanTemplate([styledMap]), cssModuleList);
+      const arrayStyles = cleanTemplate([styledMap]);
+      const processRepeatResult = processRepeatStyle(arrayStyles);
+
+      styledMapArrays = convertToClassNameArrays(processRepeatResult, cssModuleList);
     } else {
-      styledMapArrays = convertToClassNameArrays(styledMap, cssModuleList);
+      const processRepeatResult = processRepeatStyle(styledMap);
+      styledMapArrays = convertToClassNameArrays(processRepeatResult, cssModuleList);
     }
     // console.log('styledMapArrays', styledMapArrays);
   }
 
   return mergeClasses(styledMapArrays);
 }
-
-
 
 
 
