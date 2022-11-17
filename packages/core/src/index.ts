@@ -120,12 +120,10 @@ const parseStyle = (styledMap: string[] | string, cssModuleList: CSSModuleClasse
   if (styledMap !== undefined) {
     if (typeof styledMap === 'string') {
       const arrayStyles = cleanTemplate([styledMap]);
-      const processRepeatResult = processRepeatStyle(arrayStyles);
 
-      styledMapArrays = convertToClassNameArrays(processRepeatResult, cssModuleList);
+      styledMapArrays = convertToClassNameArrays(arrayStyles, cssModuleList);
     } else {
-      const processRepeatResult = processRepeatStyle(styledMap);
-      styledMapArrays = convertToClassNameArrays(processRepeatResult, cssModuleList);
+      styledMapArrays = convertToClassNameArrays(styledMap, cssModuleList);
     }
     // console.log('styledMapArrays', styledMapArrays);
   }
@@ -139,6 +137,6 @@ export {
   cleanTemplate,
   convertToClassNameArrays,
   mergeClasses,
-  processRepeatStyle,
+  // processRepeatStyle,
   parseStyle,
 }
