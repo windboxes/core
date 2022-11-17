@@ -3,7 +3,6 @@ import {
   cleanTemplate,
   convertToClassNameArrays,
   mergeClasses,
-  processRepeatStyle,
 } from '@windboxes/core';
 
 import elementsArray from './elementTags';
@@ -62,9 +61,7 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
       if (styledMap !== undefined) {
         if (typeof styledMap === 'string') {
           const arrayStyles = cleanTemplate([styledMap]);
-          const processRepeatResult = processRepeatStyle(arrayStyles);
-
-          styledMapArrays = convertToClassNameArrays(processRepeatResult, tailwind);
+          styledMapArrays = convertToClassNameArrays(arrayStyles, tailwind);
         } else {
           styledMapArrays = convertToClassNameArrays(styledMap, tailwind);
         }
@@ -75,9 +72,7 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
       // sx props
       if (typeof props.sx === 'string') {
         const arrayStyles = cleanTemplate([props.sx]);
-        const processRepeatResult = processRepeatStyle(arrayStyles);
-
-        styledMapArrays = convertToClassNameArrays(processRepeatResult, tailwind);
+        styledMapArrays = convertToClassNameArrays(arrayStyles, tailwind);
       } else {
         sxStyledListArrays = convertToClassNameArrays(props.sx, tailwind);
       }
