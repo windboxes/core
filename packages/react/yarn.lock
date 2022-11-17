@@ -57,10 +57,10 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
-"@windboxes/core@^0.0.1-beta.8.43":
-  version "0.0.1-beta.8.43"
-  resolved "https://registry.yarnpkg.com/@windboxes/core/-/core-0.0.1-beta.8.43.tgz#70d0f7edfa0b3bed0440ddeb01ef23ba870c8c27"
-  integrity sha512-tMTCq/sWZucxYie/6h4nsEnD+HsRtFddUg3m/hm/NA+WAzws7GJqrZ4T+CBxbMnbABvNnJScis7nz8ItYQC63A==
+"@windboxes/core@^0.0.1-beta.8.44":
+  version "0.0.1-beta.8.44"
+  resolved "https://registry.yarnpkg.com/@windboxes/core/-/core-0.0.1-beta.8.44.tgz#fcd1e9878d3461a274ea54e7982594c80c3c46b4"
+  integrity sha512-3/4Zf00UTfEkyBu0wpX2bpZbLbdIgl5o8psrf4MTdXsMR5g/0o5k/z1lEPYrsIUb4kqVrloW86/j2Kzc8tcjWQ==
 
 any-promise@^1.0.0:
   version "1.3.0"
