@@ -60,8 +60,7 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
 
       if (styledMap !== undefined) {
         if (typeof styledMap === 'string') {
-          const arrayStyles = cleanTemplate([styledMap]);
-          styledMapArrays = convertToClassNameArrays(arrayStyles, tailwind);
+          styledMapArrays = convertToClassNameArrays(cleanTemplate([styledMap]), tailwind);
         } else {
           styledMapArrays = convertToClassNameArrays(styledMap, tailwind);
         }
@@ -71,8 +70,7 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
       let sxStyledListArrays: string[] = [];
       // sx props
       if (typeof props.sx === 'string') {
-        const arrayStyles = cleanTemplate([props.sx]);
-        styledMapArrays = convertToClassNameArrays(arrayStyles, tailwind);
+        sxStyledListArrays = convertToClassNameArrays(cleanTemplate([props.sx]), tailwind);
       } else {
         sxStyledListArrays = convertToClassNameArrays(props.sx, tailwind);
       }
