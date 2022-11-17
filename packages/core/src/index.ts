@@ -74,9 +74,19 @@ const processRepeatStyle = (styledMapArrays: string[]): string[] => {
   // let repeatList: string[] = [];
 
   for(let index in styledMapArrays){
-    const split = styledMapArrays[index].split("-");
+    const split = styledMapArrays[index].split('-');
     const styleKeyName = split[0];
-    const styleUtil = split[1];
+    let styleUtil = '';
+
+    // merge all utils
+    for (let index in split) {
+      if(index !== '0') {
+        const keyString = split[index];
+        styleUtil += keyString;
+        // console.log('index', index);
+        // console.log('keyString', keyString);
+      }
+    }
 
     // use map to merge, if array index is last, will replace first.
     newStyleMap[styleKeyName] = styleUtil;
