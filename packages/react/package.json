@@ -1,7 +1,7 @@
 {
   "name": "@windboxes/react",
   "description": "Create styled components with Tailwind & CSS module",
-  "version": "0.0.1-beta.1.3",
+  "version": "0.0.1-beta.1.4",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "types/index.d.ts",
@@ -52,6 +52,6 @@
     "@snowfirewolf:registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "@windboxes/core": "^0.0.1-beta.8.42"
+    "@windboxes/core": "^0.0.1-beta.8.43"
   }
 }
