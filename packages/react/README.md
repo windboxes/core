@@ -1,5 +1,5 @@
 # Wind Boxes
-![Version](https://img.shields.io/github/languages/top/windboxes/react?style=for-the-badge)
+![Version](https://img.shields.io/github/languages/top/windboxes/core?style=for-the-badge)
 [![npm version](https://img.shields.io/npm/v/@windboxes/react?label=version&style=for-the-badge)](https://www.npmjs.com/package/@windboxes/react?style=for-the-badge)
 [![License](https://img.shields.io/npm/l/@windboxes/react?style=for-the-badge)](https://github.com/windboxes/react/blob/master/LICENSE)
 
