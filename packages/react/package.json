@@ -52,6 +52,6 @@
     "@snowfirewolf:registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "@windboxes/core": "^0.0.1-beta.8.35"
+    "@windboxes/core": "^0.0.1-beta.8.42"
   }
 }

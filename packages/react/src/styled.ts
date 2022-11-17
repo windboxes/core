@@ -1,8 +1,9 @@
 import React from 'react';
 import {
   cleanTemplate,
-  convertToClassNameArrays ,
+  convertToClassNameArrays,
   mergeClasses,
+  processRepeatStyle,
 } from '@windboxes/core';
 
 import elementsArray from './elementTags';
@@ -60,7 +61,10 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
 
       if (styledMap !== undefined) {
         if (typeof styledMap === 'string') {
-          styledMapArrays = convertToClassNameArrays(cleanTemplate([styledMap]), tailwind);
+          const arrayStyles = cleanTemplate([styledMap]);
+          const processRepeatResult = processRepeatStyle(arrayStyles);
+
+          styledMapArrays = convertToClassNameArrays(processRepeatResult, tailwind);
         } else {
           styledMapArrays = convertToClassNameArrays(styledMap, tailwind);
         }
@@ -70,7 +74,10 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
       let sxStyledListArrays: string[] = [];
       // sx props
       if (typeof props.sx === 'string') {
-        sxStyledListArrays = convertToClassNameArrays(cleanTemplate([props.sx]), tailwind);
+        const arrayStyles = cleanTemplate([props.sx]);
+        const processRepeatResult = processRepeatStyle(arrayStyles);
+
+        styledMapArrays = convertToClassNameArrays(processRepeatResult, tailwind);
       } else {
         sxStyledListArrays = convertToClassNameArrays(props.sx, tailwind);
       }

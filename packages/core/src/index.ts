@@ -129,5 +129,6 @@ export {
   cleanTemplate,
   convertToClassNameArrays,
   mergeClasses,
+  processRepeatStyle,
   parseStyle,
 }
