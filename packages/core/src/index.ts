@@ -3,10 +3,6 @@
 
 export type CSSModuleClasses = { readonly [key: string]: string };
 
-interface ICacheKeyMap {
-  [key: string]: string
-}
-
 
 
 const cleanTemplate = (template: (string | undefined | null)[]) => {
@@ -67,6 +63,10 @@ const mergeClasses = (classes: string[]) => {
 }
 
 
+
+interface ICacheKeyMap {
+  [key: string]: string
+}
 
 const processRepeatStyle = (styledMapArrays: string[]): string[] => {
   let result: string[] = [];
@@ -132,6 +132,8 @@ const parseStyle = (styledMap: string[] | string, cssModuleList: CSSModuleClasse
 }
 
 
+
+export default parseStyle;
 
 export {
   cleanTemplate,
