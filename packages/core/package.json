@@ -1,7 +1,7 @@
 {
   "name": "@windboxes/core",
   "description": "WindBoxes processor core",
-  "version": "0.0.1-beta.8.44",
+  "version": "0.0.1-beta.8.45",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "types/index.d.ts",
@@ -13,7 +13,6 @@
   },
   "scripts": {
     "test": "ts-node ./src/test.ts",
-    "buildOld": "ts-node ./esbuild",
     "build": "yarn build:dist && yarn build:declarations",
     "build:dist": "tsup --format cjs,esm",
     "build:declarations": "tsc --emitDeclarationOnly --declaration --outDir types"
