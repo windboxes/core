@@ -6,14 +6,27 @@
 
 
 ## Introduction
-Wind Boxes is a tool for create tailwind & css modules components.
+WindBoxes is a tool for create tailwind & css modules components.
 
-You also can inject new class into css modules file.
+WindBoxes have two usages, use styled component or only pasrse class string.
 
-You can use **array**, **string** and **sx prop** to change style and create a component.
 
-### Core
+## core function usage
+easy way to parse css module styles
+
 is here: [`@windboxes/core`](./packages/core)
 
+
+
+## styled component usage
+You can use **array**, **string** and **sx prop** to change style and create a component.
+
 ### React
+Testing styled components module, have't complete:
+
 Now you can try [`@windboxes/react`](./packages/react)
+
+
+
+## Example
+https://github.com/windboxes/examples
