@@ -9,5 +9,9 @@ You also can inject new class into css modules file.
 
 You can use **array**, **string** and **sx prop** to change style and create a component.
 
+## Examples
+https://github.com/windboxes/examples
+
 ## React
-Now you can try [`@windboxes/react`](https://github.com/windboxes/core/tree/main/packages/react) 
+Testing styled components module, This is a weird implementation:
+You can try [`@windboxes/react`](https://github.com/windboxes/core/tree/main/packages/react) 
