@@ -23,13 +23,35 @@ const styled = (styles: string | string[]) => {
 
 describe('parseStyle use styled function', () => {
 
-  test('one style return', () => {
+  test('string - one style return test', () => {
     expect(styled('mt-5')).toBe('wqlmd');
   });
 
-  test('multiple styles return', () => {
+  test('string - multiple styles return test', () => {
     expect(styled('mt-5 p-4 rounded')).toBe('wqlmd aspcm womds');
   });
 
-});
+  test('string - auto clean space strings test', () => {
+    expect(styled('   mt-5       p-4   rounded        ')).toBe('wqlmd aspcm womds');
+  });
 
+  test('string - template string test', () => {
+    expect(styled(`
+      mt-10
+      mt-5
+      p-4
+      rounded
+    `)).toBe('sicnw wqlmd aspcm womds');
+  });
+
+
+
+  test('array - input test', () => {
+    expect(styled(['mt-10', 'mt-5', 'p-4', 'rounded'])).toBe('sicnw wqlmd aspcm womds');
+  });
+
+  test('array - wont clean space strings test', () => {
+    expect(styled(['mt-10    ', '   mt-5', '    p-4', 'rounded'])).toBe('womds');
+  });
+
+});

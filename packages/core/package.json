@@ -15,7 +15,6 @@
     "typescript": "^4.8.4"
   },
   "scripts": {
-    "test": "ts-node ./test",
     "jest": "jest",
     "build": "yarn build:dist && yarn build:declarations",
     "build:dist": "tsup --format cjs,esm",
