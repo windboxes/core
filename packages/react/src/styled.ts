@@ -37,19 +37,19 @@ export type StyledComponent<T> = [T] extends [React.FunctionComponent<infer P>]
 declare type HtmlStyledTag<TName extends keyof JSX.IntrinsicElements> = StyledComponent<JSX.IntrinsicElements[TName]>;
 
 export type TagFunctionsMap = {
-  readonly [CName in IntrinsicElementsKeys]: (styledMap?: string | string[]) => HtmlStyledTag<CName>;
+  readonly [CName in IntrinsicElementsKeys]: (styledMap?: string | string[] | TemplateStringsArray) => HtmlStyledTag<CName>;
 }
 
-
-
 // create styled component
-function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: string | string[]): HtmlStyledTag<C>;
-function createStyled<C>(Element: C, styledMap?: string | string[]): StyledComponent<C>;
-function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: string | string[]): HtmlStyledTag<C> {
-  // console.log('Element', Element)
-  // console.log('styleMap', styleMap);
+// function createStyled<C extends TemplateFunction<C>>(Element: C, styledMap?: string | string[]): HtmlStyledTag<C>;
+function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: string | string[] | TemplateStringsArray): HtmlStyledTag<C>;
+function createStyled<C>(Element: C, styledMap?: string | string[] | TemplateStringsArray): StyledComponent<C>;
+function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: string | string[] | TemplateStringsArray): HtmlStyledTag<C> {
+  // console.log('Element', Element);
+  // console.log('styledMap', styledMap);
 
   const render = (props: any, ref: any) => {
+    // console.log('render!')
     const tailwind = useTailwind();
 
     if (tailwind) {
@@ -62,7 +62,7 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
         if (typeof styledMap === 'string') {
           styledMapArrays = convertToClassNameArrays(cleanTemplate([styledMap]), tailwind);
         } else {
-          styledMapArrays = convertToClassNameArrays(styledMap, tailwind);
+          styledMapArrays = convertToClassNameArrays([...styledMap], tailwind);
         }
         // console.log('styledMapArrays', styledMapArrays);
       }
@@ -120,13 +120,15 @@ function createStyled<C extends IntrinsicElementsKeys>(Element: C, styledMap?: s
 
 
 
-const tagFunctions: TagFunctionsMap = elementsArray.reduce((acc, item) => ({
+const templateStyledProcess = (item: keyof JSX.IntrinsicElements, templateString: TemplateStringsArray) => {
+  const cleanTemplateString = cleanTemplate([...templateString]);
+  return createStyled(item, cleanTemplateString);
+}
+
+const tagFunctions = elementsArray.reduce((acc, item) => ({
   ...acc,
-  [item]: (styledMap: string | string[]) => {
-    return createStyled(item, styledMap);
-  },
+  [item]: (templateString: TemplateStringsArray) => templateStyledProcess(item, templateString),
 }), {} as TagFunctionsMap);
-// console.log('tagFunctions', tagFunctions);
 
 
 
